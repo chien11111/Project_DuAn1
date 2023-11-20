@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Project_DuAn1"
 include(":app")
+include(":app")
  
