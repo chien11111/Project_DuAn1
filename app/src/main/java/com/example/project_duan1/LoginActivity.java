@@ -1,8 +1,10 @@
 package com.example.project_duan1;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         btn_login=findViewById(R.id.btn_login);
         cb_luumk= findViewById(R.id.cb_luupass);
         mAuth = FirebaseAuth.getInstance();
+
+
         tv_dangkyngay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,14 +68,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         btn_login.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 String email=tip_email_login.getText().toString();
                 String password = tip_password_login.getText().toString();
                 boolean hasError = Validate();
 
                 if (!hasError) {
+
                     DangNhap(email, password);
+
                 }
 
             }
@@ -79,6 +87,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void DangNhap(String email,String password){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Loading...");
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -89,14 +102,18 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(context, "Đăng nhập thành công",
                                     Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
                             Intent intent= new Intent(context,MainActivity.class);
                             startActivity(intent);
+
+
 
                         } else {
                             // If sign in fails, display a message to the user.
 
                             Toast.makeText(context, "Tài khoản mật khẩu chưa có",
                                     Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
 
                         }
                     }
